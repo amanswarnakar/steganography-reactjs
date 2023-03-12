@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import StegoContext from "../context/StegoContext";
+
 const Decode = () => {
   let navigate = useNavigate();
   const a = useContext(StegoContext);

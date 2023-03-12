@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { loadImage, getMessage } from "../steganography.js";
 import { useNavigate } from "react-router-dom";
 import StegoContext from "../context/StegoContext.js";
 
 const Encode = () => {
   let navigate = useNavigate();
   const a = useContext(StegoContext);
-  const [secret, setSecret] = useState("");
   const handleSecret = (e) => {
     a.setSecret(e.target.value);
   };

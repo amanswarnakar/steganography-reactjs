@@ -1,6 +1,6 @@
 import "./App.css";
-import Home from "./components/Home";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Home from "./components/Home";
 import Encode from "./components/Encode";
 import Decode from "./components/Decode";
 import StegoState from "./context/StegoState";
