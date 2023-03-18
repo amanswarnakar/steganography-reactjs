@@ -1,15 +1,47 @@
+* { padding: 0; margin: 0; box-sizing: border-box; }
 .App {
   text-align: center;
 }
-.encode {
-  width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+.btns {
+  margin: 200px auto; width: fit-content; display: flex; 
 }
-.secret-message {
-  width: 50% ; display: flex; width: 60%; align-items: center; justify-content: center;
+.btn-outer {
+  width: 150px; height: fit-content; margin: 10px 20px;
 }
 .btn {
-  margin: 20px;
+  padding: 10px 20px; border: 1px solid black; 
 }
+.btn-disabled {
+  padding: 10px 20px; border: 1px dashed grey;
+}
+.encode, .decode {
+  width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+h3 {
+  margin: 10px;
+}
+.secret-message {
+  width: fit-content; display: flex; width: 60%; align-items: center; justify-content: center; flex-direction: column; outline: transparent;
+}
+.input-secret {
+  padding: 10px 20px; margin: 20px 0; width: 50%; min-width: 300px;
+}
+.input-secret::placeholder {
+  text-align: center;
+}
+.message-text {
+  /* min-height: 20px; */ height: fit-content; margin: 10px auto 20px; font-size: 20px; font-style: italic; width: 70%;
+}
+.nav-btns {
+  display: flex; flex-direction: column;
+}
+/* .input-secret:focus-visible {
+  outline: 2px green solid; border: transparent;
+} */
+
 #canvas, #encoded-image {
   margin: auto; max-width: 800px; width: 80%; height: fit-content;
+}
+.bold {
+  font-weight: bold;
 }

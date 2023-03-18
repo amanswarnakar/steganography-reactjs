@@ -35,6 +35,7 @@ const StegoState = (props) => {
   };
 
   const encode = () => {
+    setSecret("");
     if (isImageUploaded) {
       // let secret = document.getElementById("secret").value;
       if (secret.length > 1000) setMsg("The message is too big to encode.");
@@ -67,7 +68,7 @@ const StegoState = (props) => {
     let ctx = canvas.getContext("2d");
     let imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
     let secret = decodeMessage(imgData.data);
-    setMsg("The encoded message is: " + secret);
+    setMsg(`The encoded message is: ` + secret);
   };
 
   // Encodes message using LSB method
@@ -167,6 +168,7 @@ const StegoState = (props) => {
         msg,
         setMsg,
         isImageUploaded,
+        setIsImageUploaded,
         secret,
         setSecret,
         loadImage,
