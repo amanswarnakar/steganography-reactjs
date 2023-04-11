@@ -3,11 +3,70 @@ import StegoContext from "./StegoContext";
 
 const StegoState = (props) => {
   const [isImageUploaded, setIsImageUploaded] = useState(false);
+  const [isEncoded, setIsEncoded] = useState(false);
   const [msg, setMsg] = useState("");
   const [secret, setSecret] = useState("");
+  const [averageColor, setAverageColor] = useState("");
+
+  const restoreBackgroundColor = () => {
+    setAverageColor("#9df8e06d");
+    let AppStyle = document.querySelector(".App").style;
+    AppStyle.color = "#000";
+    AppStyle.background = averageColor;
+  };
+
+  const getAverageColor = (img) => {
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    var width = (canvas.width = img.naturalWidth);
+    var height = (canvas.height = img.naturalHeight);
+
+    ctx.drawImage(img, 0, 0);
+
+    var imageData = ctx.getImageData(0, 0, width, height);
+    var data = imageData.data;
+    var r = 0;
+    var g = 0;
+    var b = 0;
+
+    for (var i = 0, l = data.length; i < l; i += 4) {
+      r += data[i];
+      g += data[i + 1];
+      b += data[i + 2];
+    }
+
+    r = Math.floor(r / (data.length / 4));
+    g = Math.floor(g / (data.length / 4));
+    b = Math.floor(b / (data.length / 4));
+    let averageColorHex =
+      "#" +
+      ("0" + r.toString(16)).slice(-2) +
+      ("0" + g.toString(16)).slice(-2) +
+      ("0" + b.toString(16)).slice(-2);
+
+    setAverageColor(averageColorHex);
+
+    let AppStyle = document.querySelector(".App").style;
+    AppStyle.backgroundColor = averageColorHex;
+
+    document
+      .querySelectorAll(".btn, .btn-disabled")
+      .forEach((element) => (element.style.background = averageColorHex));
+
+    let color = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    console.log(color);
+    if (color < 128) {
+      AppStyle.color = "#fff";
+      document.querySelector(".btn").style.borderColor = "#fff";
+      document.querySelector(".btn-disabled").style.borderColor = "#fff";
+    } else {
+      AppStyle.color = "#000";
+      document.querySelector(".btn").style.borderColor = "#000";
+      document.querySelector(".btn-disabled").style.borderColor = "#000";
+    }
+  };
 
   const loadImage = (e) => {
-    // console.log(e);
     document.getElementById("encoded-image").style.display = "none";
     let reader = new FileReader();
     reader.onload = (event) => {
@@ -17,11 +76,12 @@ const StegoState = (props) => {
         let img = new Image();
         img.onload = () => {
           let canvas = document.getElementById("canvas");
-          canvas.style.display = "block";
+          canvas.style.display = "flex";
           let ctx = canvas.getContext("2d");
           ctx.canvas.width = img.width;
           ctx.canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
+          getAverageColor(img);
         };
         img.src = dataURL;
         setIsImageUploaded(true);
@@ -40,7 +100,7 @@ const StegoState = (props) => {
       // let secret = document.getElementById("secret").value;
       if (secret.length > 1000) setMsg("The message is too big to encode.");
       else {
-        document.getElementById("encoded-image").style.display = "block";
+        document.getElementById("encoded-image").style.display = "flex";
         setSecret("");
         let output = document.getElementById("encoded-image");
         let canvas = document.getElementById("canvas");
@@ -53,10 +113,11 @@ const StegoState = (props) => {
         );
         encodeMessage(imgData.data, secret);
         ctx.putImageData(imgData, 0, 0);
-        setMsg("Image encoded! Save below image for further use!");
+        setMsg("Image encoded! Save encoded image for further use!");
         output.src = canvas.toDataURL();
         canvas.style.display = "none";
       }
+      downloadImage();
     } else {
       document.getElementById("upload-image").value = "";
       setMsg("Please upload an image!");
@@ -162,6 +223,19 @@ const StegoState = (props) => {
     }
   };
 
+  const downloadImage = () => {
+    if (isImageUploaded) {
+      let canvas = document.getElementById("canvas");
+      let anchor = document.createElement("a");
+      anchor.href = canvas.toDataURL("image/png");
+      anchor.download = "Encoded.png";
+      anchor.click();
+    } else {
+      document.getElementById("upload-image").value = "";
+      setMsg("Please upload an image!");
+    }
+  };
+
   return (
     <StegoContext.Provider
       value={{
@@ -174,6 +248,10 @@ const StegoState = (props) => {
         loadImage,
         encode,
         decode,
+        // restoreBackgroundColor,
+        // downloadImage,
+        // isEncoded,
+        // setIsEncoded,
       }}
     >
       {props.children}

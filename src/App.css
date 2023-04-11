@@ -1,7 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap');
 * { padding: 0; margin: 0; box-sizing: border-box; }
 .App {
-  text-align: center;
+  text-align: center; min-height: 100vh; font-family: 'Roboto', Arial, Helvetica, sans-serif; height: fit-content; background-color: #9df8e06d; 
 }
+.navbar {
+  width: 100%; height: 100px; display: flex; justify-content: center; align-items: center;
+}
+.navbar-logo {
+  width: 250px; height: fit-content; cursor: pointer;
+}
+
 .btns {
   margin: 200px auto; width: fit-content; display: flex; 
 }
@@ -9,22 +17,25 @@
   width: 150px; height: fit-content; margin: 10px 20px;
 }
 .btn {
-  padding: 10px 20px; border: 1px solid black; 
+  padding: 10px 20px; border: 1px solid; 
 }
 .btn-disabled {
-  padding: 10px 20px; border: 1px dashed grey;
+  padding: 10px 20px; border: 1px dashed; 
 }
-.encode, .decode {
-  width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+.box {
+  width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; position: absolute; margin-top: 80px;
+}
+h1 {
+  font-size: 40px; letter-spacing: 5px;
 }
 h3 {
-  margin: 10px;
+  margin: 10px; letter-spacing: 1px;
 }
 .secret-message {
   width: fit-content; display: flex; width: 60%; align-items: center; justify-content: center; flex-direction: column; outline: transparent;
 }
 .input-secret {
-  padding: 10px 20px; margin: 20px 0; width: 50%; min-width: 300px;
+  padding: 10px 20px; margin: 20px 0; width: 50%; min-width: 300px; border-color: none;
 }
 .input-secret::placeholder {
   text-align: center;
@@ -36,12 +47,20 @@ h3 {
   display: flex; flex-direction: column;
 }
 /* .input-secret:focus-visible {
-  outline: 2px green solid; border: transparent;
+  outline: 0px transparent solid; border: transparent; border-radius: 1px;
 } */
 
+.home, .encode, .decode { 
+  position: relative; padding-top: 20px;
+}
 #canvas, #encoded-image {
-  margin: auto; max-width: 800px; width: 80%; height: fit-content;
+ /*  margin: auto; max-width: calc(100% - 200px); width: 80%; height: fit-content; position: absolute; z-index: 0; */
+  max-width: fit-content; height: fit-content; position: absolute; z-index: 0; display: block; justify-content: center; align-items: center; filter: blur(3px); max-height: 78vh; max-width: 90vw;
+ 
 }
 .bold {
   font-weight: bold;
+}
+.center {
+  display: flex; justify-content: center; align-items: center; position: absolute; max-width: 100vw; width: 100vw; min-height: 75vh; max-height: 75vh; height: 75vh; 
 }
